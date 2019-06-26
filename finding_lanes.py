@@ -185,47 +185,49 @@ def turning_by_degrees(image, angle):
 
 
 # image:    
-# img = cv2.imread(
-#     r'C:\Users\DucTRung\Documents\OpenCV\finding-lanes\Picture_test\image_test.jpg')
-# copy_img = np.copy(img)
-# edge_img = canny(copy_img)
-# roi_img = roi(edge_img)
-# lines = cv2.HoughLinesP(roi_img, 2, np.pi/180, 100,
-#                         np.array([]), minLineLength=40, maxLineGap=5)
-# averaged_lines = average_slope_intercept(copy_img, lines)
-# lines_image = display_lines(copy_img, averaged_lines)
-# lines_display = cv2.addWeighted(lines_image, 1, img, 0.8, 1)
-# centerline_img = centerline(copy_img, averaged_lines)
-# centerline_display = cv2.addWeighted(centerline_img, 1, lines_display, 0.7, 1)
-# angle = calculate_angle(averaged_lines)
-# turning = turning_by_degrees(centerline_display, angle)
-# cv2.imshow('xxx', centerline_display)
-# #cv2.imwrite('centerline.jpg', centerline_img)
-# cv2.waitKey(0)
+def image():
+    img = cv2.imread(
+        r'C:\Users\DucTRung\Documents\OpenCV\finding-lanes\Picture_test\image_test.jpg')
+    copy_img = np.copy(img)
+    edge_img = canny(copy_img)
+    roi_img = roi(edge_img)
+    lines = cv2.HoughLinesP(roi_img, 2, np.pi/180, 100,
+                            np.array([]), minLineLength=40, maxLineGap=5)
+    averaged_lines = average_slope_intercept(copy_img, lines)
+    lines_image = display_lines(copy_img, averaged_lines)
+    lines_display = cv2.addWeighted(lines_image, 1, img, 0.8, 1)
+    centerline_img = centerline(copy_img, averaged_lines)
+    centerline_display = cv2.addWeighted(centerline_img, 1, lines_display, 0.7, 1)
+    angle = calculate_angle(averaged_lines)
+    turning = turning_by_degrees(centerline_display, angle)
+    cv2.imshow('xxx', centerline_display)
+    #cv2.imwrite('centerline.jpg', centerline_img)
+    cv2.waitKey(0)
 
 # video:
-# cap = cv2.VideoCapture(
-#     r"C:\Users\DucTRung\Documents\OpenCV\finding-lanes\Picture_test\video_test_udemy.mp4")
-# while(cap.isOpened()):
-#     _, frame = cap.read()
-#     copy_img = np.copy(frame)
-#     edge_img = canny(copy_img)
-#     roi_img = roi(edge_img)
-#     lines = cv2.HoughLinesP(roi_img, 2, np.pi/180, 100,
-#                             np.array([]), minLineLength=40, maxLineGap=5)
-#     averaged_lines = average_slope_intercept(copy_img, lines)
+def video():
+    cap = cv2.VideoCapture(
+        r"C:\Users\DucTRung\Documents\OpenCV\finding-lanes\Picture_test\video_test_udemy.mp4")
+    while(cap.isOpened()):
+        _, frame = cap.read()
+        copy_img = np.copy(frame)
+        edge_img = canny(copy_img)
+        roi_img = roi(edge_img)
+        lines = cv2.HoughLinesP(roi_img, 2, np.pi/180, 100,
+                                np.array([]), minLineLength=40, maxLineGap=5)
+        averaged_lines = average_slope_intercept(copy_img, lines)
 
-#     lines_image = display_lines(copy_img, averaged_lines)
-#     lines_display = cv2.addWeighted(lines_image, 1, frame, 0.8, 1)
+        lines_image = display_lines(copy_img, averaged_lines)
+        lines_display = cv2.addWeighted(lines_image, 1, frame, 0.8, 1)
 
-#     centerline_img = centerline(copy_img, averaged_lines)
-#     centerline_display = cv2.addWeighted(
-#         centerline_img, 1, lines_display, 0.7, 1)
-#     angle = calculate_angle(averaged_lines)
-#     turning = turning_by_degrees(centerline_display, angle)
+        centerline_img = centerline(copy_img, averaged_lines)
+        centerline_display = cv2.addWeighted(
+            centerline_img, 1, lines_display, 0.7, 1)
+        angle = calculate_angle(averaged_lines)
+        turning = turning_by_degrees(centerline_display, angle)
 
-#     cv2.imshow("xxx", turning)
-#     if cv2.waitKey(1) == ord('x'):
-#         break
-# cap.release()
-# cv2.destroyAllWindows()
+        cv2.imshow("xxx", turning)
+        if cv2.waitKey(1) == ord('x'):
+            break
+    cap.release()
+    cv2.destroyAllWindows()

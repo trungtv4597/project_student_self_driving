@@ -96,39 +96,39 @@ def decision_light(image, light_coordinates):
                              cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0))
 
 
+def video():
+    cap = cv2.VideoCapture(0)
+    while 1:
+        ret, frame = cap.read()
+        light_coordinates = light(frame)
+        color_detect = color(frame, light_coordinates)
+        decision_light(frame, light_coordinates)
 
-# cap = cv2.VideoCapture(0)
-# while 1:
-#     ret, frame = cap.read()
-#     light_coordinates = light(frame)
-#     color_detect = color(frame, light_coordinates)
-#     decision_light(frame, light_coordinates)
-
-#     cv2. imshow('xxx', frame)
-#     k = cv2.waitKey(30) & 0xff
-#     if k == 27:
-#         break
-# cap.release()
-# cv2.destroyAllWindows()
+        cv2. imshow('xxx', frame)
+        k = cv2.waitKey(30) & 0xff
+        if k == 27:
+            break
+    cap.release()
+    cv2.destroyAllWindows()
 
 # IMAGE:
         # red_light: C:\Users\DucTRung\Documents\OpenCV\light_traffic_detection\red_light.jpg
 
-# img = cv2.imread(
-#     r'C:\Users\DucTRung\Documents\OpenCV\light_traffic_detection\red_light.jpg')
-# light_coordinates = light(img)
+def image():
+    img = cv2.imread(
+        r'C:\Users\DucTRung\Documents\OpenCV\light_traffic_detection\red_light.jpg')
+    light_coordinates = light(img)
 
-# color_detect = color(img, light_coordinates)
+    color_detect = color(img, light_coordinates)
 
-# # if len(light_coordinates) == 0:
-# #     print('không có đèn di chuyển bình thường')
-
-# # else:
-# #     print('có đèn giao thông, cần xác định màu')
-# #     if color_detect == 1:
-# #         print('đứng lại')
-# #     else:
-# #         print('có thể di chuyển')
-# cv2.imshow('xxx', img)
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
+    # if len(light_coordinates) == 0:
+    #     print('không có đèn di chuyển bình thường')
+    # else:
+    #     print('có đèn giao thông, cần xác định màu')
+    #     if color_detect == 1:
+    #         print('đứng lại')
+    #     else:
+    #         print('có thể di chuyển')
+    cv2.imshow('xxx', img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
