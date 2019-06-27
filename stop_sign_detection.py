@@ -49,5 +49,7 @@ def image():
     else:
         print('biến stop, dừng lại')
 
+    cv2.imshow('xxx', img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+
