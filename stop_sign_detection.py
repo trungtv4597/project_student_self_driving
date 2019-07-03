@@ -5,7 +5,7 @@ import cv2
 def stop(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     blur = cv2.GaussianBlur(gray, (5, 5), 0)
-    stop_cascade = cv2.CascadeClassifier('Stopsign_HAAR_19Stages.xml')
+    stop_cascade = cv2.CascadeClassifier(r'C:\Users\DucTRung\Documents\GitHub\project_student_self_driving\image\Stopsign_HAAR_19Stages.xml')
     stop_coordinates = stop_cascade.detectMultiScale(blur, 1.3, 5)
 
     for (x, y, w, h) in stop_coordinates:
@@ -26,14 +26,13 @@ def decision_stop(stop_coordinates):
 
 def video():
     cap = cv2.VideoCapture(0)
-    while 1:
+    while cap.isOpened():
         _, frame = cap.read()
-        image = stop(frame)
-        decision_stop(image)
+        #image = stop(frame)
+        #decision_stop(image)
         cv2.imshow('img', frame)
-        k = cv2.waitKey(30) & 0xff
-        if k == 27 & 0xFF == ord('x'):
-                break
+        if cv2.waitKey(1) & 0xFF == ord('x'):
+            break
     cap.release()
     cv2.destroyAllWindows()
 
@@ -52,4 +51,3 @@ def image():
     cv2.imshow('xxx', img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-
