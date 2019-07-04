@@ -1,33 +1,37 @@
 /* LED CONTROLLING WITH PYTHON
- * Written by Junicchi
- * https://github.com/Kebablord 
- *
- * It's a ESP management through Python example
- * It simply fetches the path from the request
- * Path is: https://example.com/this -> "/this"
- * You can command your esp through python with request paths
- * You can read the path with getPath() function
- */
+   Written by Junicchi
+   https://github.com/Kebablord
+
+   It's a ESP management through Python example
+   It simply fetches the path from the request
+   Path is: https://example.com/this -> "/this"
+   You can command your esp through python with request paths
+   You can read the path with getPath() function
+*/
 
 
 #include "ESP_MICRO.h"
+#include <Wire.h>
 
-void setup(){
+void setup() {
   Serial.begin(9600);
-  start("DucTrung","mangnhabihu"); // Wifi details connec to
-
-  pinMode(16,OUTPUT);
+  start("DucTrung", "mangnhabihu"); // Wifi details connec to
+  Wire.begin(D1, D2);
 }
 
-void loop(){
+void loop() {
   waitUntilNewReq();  //Waits until a new request from python come
 
-  if (getPath()=="//red"){
-    digitalWrite(16,HIGH);
+  if (getPath() == "//red") {
+    Wire.beginTransmission(8); /* begin with device address 8 */
+    Wire.write(1);
+    Wire.endTransmission();    /* stop transmitting */
     returnThisInt(' '); //Returns the data to python
   }
-  if (getPath()=="//pass"){
-    digitalWrite(16,LOW);
+  if (getPath() == "//pass") {
+    Wire.beginTransmission(8); /* begin with device address 8 */
+    Wire.write(0);
+    Wire.endTransmission();    /* stop transmitting */
     returnThisInt(' '); //Returns the data to python
 
   }
