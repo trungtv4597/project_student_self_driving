@@ -28,8 +28,8 @@ def video():
     cap = cv2.VideoCapture(0)
     while cap.isOpened():
         _, frame = cap.read()
-        #image = stop(frame)
-        #decision_stop(image)
+        image = stop(frame)
+        decision_stop(image)
         cv2.imshow('img', frame)
         if cv2.waitKey(1) & 0xFF == ord('x'):
             break
@@ -51,3 +51,4 @@ def image():
     cv2.imshow('xxx', img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+

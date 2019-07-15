@@ -25,15 +25,15 @@ void receiveEvent(int howMany) {
  while (0 <Wire.available()) {
     int c = Wire.read();      /* receive byte as a character */
          
-    if (c == 1){
+    if (c == 2){
       Serial.print(c); /* print the character */
       stop();
     }
-    else if (c == 0){
+    else if (c == 1){
       Serial.print(c);
       forward();
     }
-    else{
+    else if (c == 0){
       stop();
     }
   }

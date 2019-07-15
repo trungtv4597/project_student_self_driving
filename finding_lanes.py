@@ -199,7 +199,7 @@ def image():
     centerline_img = centerline(copy_img, averaged_lines)
     centerline_display = cv2.addWeighted(centerline_img, 1, lines_display, 0.7, 1)
     angle = calculate_angle(averaged_lines)
-    turning = turning_by_degrees(centerline_display, angle)
+    turning_by_degrees(centerline_display, angle)
     cv2.imshow('xxx', centerline_display)
     #cv2.imwrite('centerline.jpg', centerline_img)
     cv2.waitKey(0)

@@ -24,15 +24,20 @@ void loop() {
 
   if (getPath() == "//red") {
     Wire.beginTransmission(8); /* begin with device address 8 */
+    Wire.write(2);
+    Wire.endTransmission();    /* stop transmitting */
+    returnThisInt(' '); //Returns the data to python
+  }
+  else if (getPath() == "//pass") {
+    Wire.beginTransmission(8); /* begin with device address 8 */
     Wire.write(1);
     Wire.endTransmission();    /* stop transmitting */
     returnThisInt(' '); //Returns the data to python
   }
-  if (getPath() == "//pass") {
+  else if (getPath() == "//exit") {
     Wire.beginTransmission(8); /* begin with device address 8 */
     Wire.write(0);
     Wire.endTransmission();    /* stop transmitting */
     returnThisInt(' '); //Returns the data to python
-
   }
 }
