@@ -15,7 +15,7 @@
 
 void setup() {
   Serial.begin(9600);
-  start("DucTrung", "mangnhabihu"); // Wifi details connec to
+  start("Viva Star Nguyễn Ảnh Thủ", "0123456789"); // Wifi details connec to
   Wire.begin(D1, D2);
 }
 
@@ -26,18 +26,18 @@ void loop() {
     Wire.beginTransmission(8); /* begin with device address 8 */
     Wire.write(2);
     Wire.endTransmission();    /* stop transmitting */
-    returnThisInt(' '); //Returns the data to python
+    returnThisInt('r'); //Returns the data to python
   }
   else if (getPath() == "//pass") {
     Wire.beginTransmission(8); /* begin with device address 8 */
     Wire.write(1);
     Wire.endTransmission();    /* stop transmitting */
-    returnThisInt(' '); //Returns the data to python
+    returnThisInt('p'); //Returns the data to python
   }
   else if (getPath() == "//exit") {
     Wire.beginTransmission(8); /* begin with device address 8 */
     Wire.write(0);
     Wire.endTransmission();    /* stop transmitting */
-    returnThisInt(' '); //Returns the data to python
+    returnThisInt('e'); //Returns the data to python
   }
 }

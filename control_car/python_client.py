@@ -2,7 +2,7 @@ import stop_sign_detection
 import urllib.request
 import cv2
 
-root_url = "http://192.168.1.8/"
+root_url = "http://192.168.1.115/"
 #camera_url
 
 def sendRequest(url):
