@@ -22,15 +22,13 @@ def roi(edge):
     return roi
 
 
-def slope(x1, y1, x2, y2):
+def slope_Yintercept(x1, y1, x2, y2):
+    '''
     # source for calculating slope: https://cls.syr.edu/mathtuneup/grapha/Unit4/Unit4a.html
-    slope = (y2 - y1) / (x2 -x1)
-    return slope
-def y_intercept(x1, y1, x2, y2):
-    # phương trình đường thẳng: y = ax + b
-    a = slope(x1, y1, x2, y2)
-    b = y1 - a*x1
-    return b
+    '''
+    slope = (y2 - y1) / (x2 - x1)
+    y_intercept = y1 - slope*x1
+    return [[slope, y_intercept]]
 
 
 def make_coordinates(copy_image, line_parameters):
@@ -46,35 +44,39 @@ def make_coordinates(copy_image, line_parameters):
 def averaged_slope_intercept(copy_image, lines_image):
     left_fit = [] #chứa tọa độ đường thẳng trung bình bên trái
     right_fit = [] #chứa tọa độ đường thẳng trung bình bên phải 
-    for line in lines:
-        x1, y1, x2, y2 = line.reshape(4)
-        #Fit a polynomial ``p(x) = p[0] * x**deg + ... + p[deg]`` of degree `deg`to points `(x, y)`. Returns a vector of coefficients `p` that minimises the squared error.
-        paramenters = np.polyfit((x1,x2),(y1,y2), 1) # giải bài toán tìm slope và y-intercept của một đường thẳng đi qua 2 điểm
-        slope = paramenters[0]
-        y_intercept = paramenters[1]
-        if slope < 0: #trong matplotlib, đường thẳng đi từ dưới lên về phía bên phải và ngược lại if slope > 0
-            left_fit.append((slope, y_intercept))
-            left_fit_averaged = np.average(left_fit, axis=0)
-        else:
-            right_fit.append((slope, y_intercept))
-            right_fit_averaged = np.average(right_fit, axis=0)
+    try:
+        for line in lines:
+            x1, y1, x2, y2 = line.reshape(4)
+            #Fit a polynomial ``p(x) = p[0] * x**deg + ... + p[deg]`` of degree `deg`to points `(x, y)`. Returns a vector of coefficients `p` that minimises the squared error.
+            paramenters = np.polyfit((x1,x2),(y1,y2), 1) # giải bài toán tìm slope và y-intercept của một đường thẳng đi qua 2 điểm
+            slope = paramenters[0]
+            y_intercept = paramenters[1]
+            if slope < 0: #trong matplotlib, đường thẳng đi từ dưới lên về phía bên phải và ngược lại if slope > 0
+                left_fit.append((slope, y_intercept))
+                left_fit_averaged = np.average(left_fit, axis=0)
+            else:
+                right_fit.append((slope, y_intercept))
+                right_fit_averaged = np.average(right_fit, axis=0)
 
-    if len(left_fit) == 0:
-        slope, y_intercept = right_fit_averaged
-        slope = 0 - slope
-        y_intercept = 600 - y_intercept + 70
-        left_fit.append((slope, y_intercept))
-        left_fit_averaged = np.average(left_fit, axis=0)
-    if len(right_fit) == 0:
-        slope, y_intercept = left_fit_averaged
-        slope = 0 - slope
-        y_intercept = 600 - y_intercept - 150
-        right_fit.append((slope, y_intercept))
-        right_fit_averaged = np.average(left_fit, axis=0)
+    # if len(left_fit) == 0:
+    #     slope, y_intercept = right_fit_averaged
+    #     slope = 0 - slope
+    #     y_intercept = 600 - y_intercept + 70
+    #     left_fit.append((slope, y_intercept))
+    #     left_fit_averaged = np.average(left_fit, axis=0)
+    # if len(right_fit) == 0:
+    #     slope, y_intercept = left_fit_averaged
+    #     slope = 0 - slope
+    #     y_intercept = 600 - y_intercept - 150
+    #     right_fit.append((slope, y_intercept))
+    #     right_fit_averaged = np.average(left_fit, axis=0)
     
-    left_line = make_coordinates(copy_image, left_fit_averaged)
-    right_line = make_coordinates(copy_image, right_fit_averaged)
-    return np.array([left_line, right_line]) 
+        left_line = make_coordinates(copy_image, left_fit_averaged)
+        right_line = make_coordinates(copy_image, right_fit_averaged)
+        return np.array([left_line, right_line]) 
+    
+    except:
+        pass
 
 
 
@@ -114,7 +116,7 @@ def line_detection(copy_image, lines):
 # cv2.destroyAllWindows()
 
 
-video = cv2.VideoCapture(r'Picture_test\video_test_udemy.mp4')
+video = cv2.VideoCapture(r'C:\Users\DucTRung\Documents\OpenCV\finding-lanes\Picture_test\video_test_udemy.mp4')
 while True:
     _,frame = video.read()
     copy_image = np.copy(frame)
