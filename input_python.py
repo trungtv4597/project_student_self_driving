@@ -6,7 +6,7 @@ from tracking_lanes import lines_detection
 
 #url = '/shot.jpg'
 if __name__ == "__main__":
-    cap = cv2.VideoCapture(r'C:\Users\DucTRung\Documents\OpenCV\finding-lanes\Picture_test\cc_video.mp4')
+    cap = cv2.VideoCapture(0)
     while True:
         # frameResp = urllib.request.urlopen(url)
         # frameNp = np.array(bytearray(frameResp.read()), dtype= np.uint8)
@@ -15,14 +15,15 @@ if __name__ == "__main__":
         _, frame = cap.read()
         if frame is not None:
             # Rotation:
-            # (h, w) = frame.shape[:2]
-            # center = (w / 2, h / 2)
-            # M = cv2.getRotationMatrix2D(center, 270, 1)
-            # img = cv2.warpAffine(frame, M, (h, w))
+            (h, w) = frame.shape[:2]
+            center = (w / 2, h / 2)
+            M = cv2.getRotationMatrix2D(center, 270, 1)
+            img = cv2.warpAffine(frame, M, (h, w))
 
-            copy_img = np.copy(frame)
-            img = lines_detection(copy_img) 
-            cv2.imshow('xxx', img)
+            #img = cv2.flip(frame, 1)
+            copy_img = np.copy(img)
+            cc = lines_detection(copy_img) 
+            cv2.imshow('xxx', cc)
             if cv2.waitKey(1) & 0xFF == ord('x'):
                 break
         else:
