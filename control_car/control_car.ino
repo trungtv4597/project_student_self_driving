@@ -11,33 +11,71 @@
 
 
 #include "ESP_MICRO.h"
-#include <Wire.h>
+
+//motorA
+#define A_en  5 // d2 pwm
+#define A_dir 0 // d3 chiều quay
+//motorB
+#define B_en  4 // d1 pwm
+#define B_dir 2 // d4 chiều quay
+
+char ssid[] = "DucTrung";
+char pass[] = "mangnhabihu";
+
 
 void setup() {
   Serial.begin(9600);
-  start("Viva Star Nguyễn Ảnh Thủ", "0123456789"); // Wifi details connec to
-  Wire.begin(D1, D2);
+  pinMode(A_en,  OUTPUT);
+  pinMode(A_dir, OUTPUT);
+  pinMode(B_en,  OUTPUT);
+  pinMode(B_dir, OUTPUT);
+  digitalWrite(A_en, LOW);
+  digitalWrite(B_en, LOW);
+}
+
+void forward() {
+  digitalWrite(A_en, LOW);
+  digitalWrite(B_en, HIGH);
+  //digitalWrite(A_dir, HIGH);
+  //digitalWrite(B_dir, HIGH);
+}
+
+void forward_right() {
+  digitalWrite(A_en, HIGH);
+  digitalWrite(B_en, HIGH);
+  digitalWrite(A_dir, LOW);
+  digitalWrite(B_dir, HIGH);
+}
+
+void forward_left() {
+  digitalWrite(A_en, HIGH);
+  digitalWrite(B_en, HIGH);
+  digitalWrite(A_dir, HIGH);
+  digitalWrite(B_dir, HIGH);
+}
+
+void stop() {
+  digitalWrite(A_en, LOW);
+  digitalWrite(B_en, LOW);
 }
 
 void loop() {
   waitUntilNewReq();  //Waits until a new request from python come
 
-  if (getPath() == "//red") {
-    Wire.beginTransmission(8); /* begin with device address 8 */
-    Wire.write(2);
-    Wire.endTransmission();    /* stop transmitting */
+  if (getPath() == "//0") {
+    forward();
+    returnThisInt('g'); //Returns the data to python
+  }
+  else if (getPath() == "//1") {
+    forward_right();
     returnThisInt('r'); //Returns the data to python
   }
-  else if (getPath() == "//pass") {
-    Wire.beginTransmission(8); /* begin with device address 8 */
-    Wire.write(1);
-    Wire.endTransmission();    /* stop transmitting */
-    returnThisInt('p'); //Returns the data to python
+  else if (getPath() == "//2") {
+    forward_left();
+    returnThisInt('l'); //Returns the data to python
   }
-  else if (getPath() == "//exit") {
-    Wire.beginTransmission(8); /* begin with device address 8 */
-    Wire.write(0);
-    Wire.endTransmission();    /* stop transmitting */
-    returnThisInt('e'); //Returns the data to python
+  else if (getPath() == "//3") {
+    stop();
+    returnThisInt('s'); //Returns the data to python
   }
 }
