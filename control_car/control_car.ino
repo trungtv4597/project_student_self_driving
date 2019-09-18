@@ -1,81 +1,77 @@
-/* LED CONTROLLING WITH PYTHON
-   Written by Junicchi
-   https://github.com/Kebablord
-
-   It's a ESP management through Python example
-   It simply fetches the path from the request
-   Path is: https://example.com/this -> "/this"
-   You can command your esp through python with request paths
-   You can read the path with getPath() function
-*/
-
-
 #include "ESP_MICRO.h"
+#include <Servo.h>
 
-//motorA
-#define A_en  5 // d2 pwm
-#define A_dir 0 // d3 chiều quay
-//motorB
-#define B_en  4 // d1 pwm
-#define B_dir 2 // d4 chiều quay
 
-char ssid[] = "DucTrung";
-char pass[] = "mangnhabihu";
+
+//motor
+#define motor_en  4 // d2 pwm
+#define motor_dir 2 // d4 chiều quay
+//servoX
+Servo servoX;
 
 
 void setup() {
-  Serial.begin(9600);
-  pinMode(A_en,  OUTPUT);
-  pinMode(A_dir, OUTPUT);
-  pinMode(B_en,  OUTPUT);
-  pinMode(B_dir, OUTPUT);
-  digitalWrite(A_en, LOW);
-  digitalWrite(B_en, LOW);
+  Serial.begin(9600); // Starting serial port for seeing details
+  start("DucTrung", "mangnhabihu");  // EnAIt will connect to your wifi with given details
+
+  // initial settings for servo
+  servoX.attach(15); // GPIO 15_D8
+  servoX.write(150);
+
+  // initial settings for motors Y off and direction forward
+  pinMode(motor_en,  OUTPUT);
+  pinMode(motor_dir, OUTPUT);
+  digitalWrite(motor_en, LOW);
+  //digitalWrite(motor_dir, HIGH);
 }
 
-void forward() {
-  digitalWrite(A_en, LOW);
-  digitalWrite(B_en, HIGH);
-  //digitalWrite(A_dir, HIGH);
-  //digitalWrite(B_dir, HIGH);
+//int Speed = 1000; //speed of wifi_car
+void stop(void) {
+  digitalWrite(motor_en, LOW);
+  servoX.write(150);
 }
-
-void forward_right() {
-  digitalWrite(A_en, HIGH);
-  digitalWrite(B_en, HIGH);
-  digitalWrite(A_dir, LOW);
-  digitalWrite(B_dir, HIGH);
+void forward(void) {
+  digitalWrite(motor_en, HIGH);
+  digitalWrite(motor_dir, HIGH);
+  servoX.write(150);
 }
-
-void forward_left() {
-  digitalWrite(A_en, HIGH);
-  digitalWrite(B_en, HIGH);
-  digitalWrite(A_dir, HIGH);
-  digitalWrite(B_dir, HIGH);
+void backward(void) {
+  digitalWrite(motor_en, HIGH);
+  digitalWrite(motor_dir, LOW);
+  servoX.write(150);
 }
-
-void stop() {
-  digitalWrite(A_en, LOW);
-  digitalWrite(B_en, LOW);
+void left(void) {
+  digitalWrite(motor_en, HIGH);
+  digitalWrite(motor_dir, HIGH);
+  servoX.write(180);
+}
+void right(void) {
+  digitalWrite(motor_en, HIGH);
+  digitalWrite(motor_dir, HIGH);
+  servoX.write(130);
 }
 
 void loop() {
   waitUntilNewReq();  //Waits until a new request from python come
 
   if (getPath() == "//0") {
+    Serial.print("forward");
     forward();
-    returnThisInt('g'); //Returns the data to python
-  }
-  else if (getPath() == "//1") {
-    forward_right();
-    returnThisInt('r'); //Returns the data to python
+    returnThisInt(1); //Returns the data to python
   }
   else if (getPath() == "//2") {
-    forward_left();
-    returnThisInt('l'); //Returns the data to python
+    Serial.print("right");
+    right();
+    returnThisInt(1); //Returns the data to python
   }
-  else if (getPath() == "//3") {
+  else if (getPath() == "//1") {
+    Serial.print("left");
+    left();
+    returnThisInt(1); //Returns the data to python
+  }
+  else if (getPath() == "//stop") {
+    Serial.print("stop");
     stop();
-    returnThisInt('s'); //Returns the data to python
+    returnThisInt(1); //Returns the data to python
   }
 }

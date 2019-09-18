@@ -10,8 +10,8 @@
 
 void setup() {
   // set up wifi
-  //Serial.begin(9600);
-  //start("DucTrung", "mangnhabihu"); // Wifi details connec to
+  Serial.begin(9600);
+  start("DucTrung", "mangnhabihu"); // Wifi details connec to
 
   // initial settings for motors off and direction forward
   pinMode(A_en,  OUTPUT);
