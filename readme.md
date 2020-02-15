@@ -13,19 +13,19 @@ Nâng cấp một chiếc xe điều khiển từ xa trở thành xe tự hành 
 Xác định làn đường:
 * Áp dụng kỹ thuật Hough Transform trong xử lý ảnh để xác định làn đường. 
 
-![hough_transform_work_flow.png](attachment:hough_transform_work_flow.png)
+![](https://github.com/trungtv4597/project_student_self_driving/blob/master/images/hough_transform_work_flow.png)
 
 Tự động tránh vật cản:
 * Sử dụng cảm biến siêu âm, HC-SR04, để đo khoảng cách tới vật cản.
 
-![hc-sr04.png](attachment:hc-sr04.png)
+![](https://github.com/trungtv4597/project_student_self_driving/blob/master/images/hc-sr04.png)
 
 Thiết kế hệ thống
 
-![system_design.jpg](attachment:system_design.jpg)
+![](https://github.com/trungtv4597/project_student_self_driving/blob/master/images/system_design.jpg)
 
 ## Kết quả thức hiện đề tài
 
 * Dựa trên việc có thể xác định được làn đường, xe có thể phán đoán hướng di chuyển và thậm chí còn có thể cảnh báo không đi đúng làn đường
 
-![results2.png](attachment:results2.png)
+![](https://github.com/trungtv4597/project_student_self_driving/blob/master/images/results2.png)
